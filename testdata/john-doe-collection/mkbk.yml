@@ -1,0 +1,16 @@
+title: John Doe's Collection
+description: This is John Doe's description
+baseURL: https://example.com
+author:
+  name: John Doe
+  links:
+    - name: Twitter
+      address: https://twitter.com
+  donate:
+    - name: Patreon
+      address: https://patreon.com
+    - name: Paypal
+      address: https://paypal.com
+    - name: Bitcoin
+      address: 1234567890qwertyuiopasdfghjklzxcvbnm
+      nonLink: yes
