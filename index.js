@@ -1,10 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import process from 'process';
-import yaml from 'yaml';
-import { Command } from 'commander';
+const fs = require('fs');
+const path = require('path');
+const yaml = require('yaml');
+const { program } = require('commander');
 
-const program = new Command();
 program.version('0.0.1')
 program
     .command('build <source>')
