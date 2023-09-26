@@ -6,7 +6,7 @@
     "scripts": {
         "build-linux": "pkg index.js -t node18-linux-x64 --compress GZip -o mkbk"
     },
-    "author": "",
+    "author": "Jessebot",
     "license": "MPL-2.0",
     "dependencies": {
         "commander": "^11.0.0",
