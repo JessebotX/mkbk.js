@@ -1,0 +1,31 @@
+title: John Doe's First Book
+languageCode: en
+genre:
+  - Contemporary
+  - Thriller
+shortDescription: |
+  The legendary book written by John Doe himself.
+coverFileName: cover.webp
+blurbFileName: index.md
+licenseFileName: LICENSE
+status: Completed
+mirrors:
+  - https://mirrorwebsite.com
+  - https://another-mirrorwebsite.com
+author:
+  name: John Doe
+  links:
+    - name: Twitter
+      address: https://twitter.com
+    - name: Facebook
+      address: https://facebook.com
+    - name: Reddit
+      address: https://reddit.com
+  donate:
+    - name: Patreon
+      address: https://patreon.com
+    - name: Paypal
+      address: https://paypal.com
+    - name: Bitcoin
+      address: 1234567890qwertyuiopsdfghjklzxcvbnm
+      nonLink: true
