@@ -6,7 +6,7 @@ const chapter = require('./chapter');
 
 function readFromYAML(source, id, chaptersDir) {
     book = yaml.parse(source);
-    book.id = id
+    book.id = id;
     book.chapters = readChapters(chaptersDir);
     return book;
 }
