@@ -4,18 +4,27 @@ const yaml = require('yaml');
 const { program } = require('commander');
 
 const collection = require('./collection');
+const renderer = require('./renderer');
 
-const BOOKS_DIRECTORY = "books"
+const BOOKS_DIRECTORY = 'books';
 
 program.version('0.0.1');
 program
     .command('build <inputDirectory>')
     .description('builds a collection at <inputDirectory>')
     .action((inputDirectory) => {
-        const mkbkYAML = fs.readFileSync(path.join(inputDirectory, 'mkbk.yml'), 'utf-8');
+        try {
+            const source = fs.readFileSync(path.join(inputDirectory, 'mkbk.yml'), 'utf-8');
+            const fullCollection = collection.readFromYAML(source, path.join(inputDirectory, BOOKS_DIRECTORY));
 
-        const full_collection = collection.readFromYAML(mkbkYAML, path.join(inputDirectory, BOOKS_DIRECTORY));
-        console.log("Collection:", full_collection);
+            renderer.htmlSite(fullCollection, inputDirectory);
+        } catch (err) {
+            if (err.code === 'ENOENT') {
+                console.log(`Cannot find mkbk.yml in directory "${inputDirectory}"`);
+            } else if (err.code === 'EACCES') {
+                console.log(`Cannot read mkbk.yml (lack of permissions?)`);
+            }
+        }
     });
 
 program.parse();
