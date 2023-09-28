@@ -32,15 +32,16 @@ function htmlSite(collection, inputDirectory) {
         console.log(`Using default chapter layout since it failed to read ${path.join(layoutsDir, 'chapter.html')}`);
     }
 
-    // index.html
-    // const { title, description, baseURL, languageCode, books } = collection;
-    // try {
-    //     const indexHTMLContent = ejs.render(indexLayout, {title, languageCode, description, baseURL, books, params: collection});
-    //     fs.writeFileSync(path.join(rootOutputDir, 'index.html'), indexHTMLContent);
-    // } catch (err) {
-    //     console.error(err);
-    //     return;
-    // }
+    // copy layout/assets into root of output directory
+    const themeAssetsDir = path.join(layoutsDir, 'assets');
+    if (fs.existsSync(themeAssetsDir)) {
+        try {
+            fs.cpSync(themeAssetsDir, rootOutputDir, { preserveTimestamps: true, recursive: true });
+        } catch (err) {
+            console.error(err);
+            return;
+        }
+    }
 
     const { title, description, baseURL, languageCode, books } = collection;
     try {
