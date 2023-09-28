@@ -5,9 +5,9 @@ genre:
   - Thriller
 shortDescription: |
   The legendary book written by John Doe himself.
-coverFileName: cover.webp
+#coverFileName: cover.webp
 blurbFileName: index.md
-licenseFileName: LICENSE
+#licenseFileName: LICENSE
 status: Completed
 mirrors:
   - https://mirrorwebsite.com
