@@ -21,7 +21,9 @@ const BOOK_INDEX = `
     <title><%= title %></title>
   </head>
   <body>
-    <div id="app"></div>
+    <h1>Content:</h1>
+
+    <%- content %>
   </body>
 </html>`
 
@@ -34,7 +36,7 @@ const CHAPTER = `
     <title><%= title %></title>
   </head>
   <body>
-    <div id="app"></div>
+    <%- content %>
   </body>
 </html>`
 

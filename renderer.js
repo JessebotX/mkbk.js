@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
+const { marked } = require('marked');
 
 const defaultLayouts = require('./default-layouts');
 
@@ -32,10 +33,19 @@ function htmlSite(collection, inputDirectory) {
     }
 
     // index.html
+    // const { title, description, baseURL, languageCode, books } = collection;
+    // try {
+    //     const indexHTMLContent = ejs.render(indexLayout, {title, languageCode, description, baseURL, books, params: collection});
+    //     fs.writeFileSync(path.join(rootOutputDir, 'index.html'), indexHTMLContent);
+    // } catch (err) {
+    //     console.error(err);
+    //     return;
+    // }
+
     const { title, description, baseURL, languageCode, books } = collection;
     try {
-        const indexHTMLContent = ejs.render(indexLayout, {title, languageCode, description, baseURL, books, params: collection});
-        fs.writeFileSync(path.join(rootOutputDir, 'index.html'), indexHTMLContent);
+        writeFileWithTemplate(
+            path.join(rootOutputDir, 'index.html'), indexLayout, { title, description, baseURL, languageCode, books, params: collection});
     } catch (err) {
         console.error(err);
         return;
@@ -45,47 +55,49 @@ function htmlSite(collection, inputDirectory) {
     collection.books.forEach((book) => {
         const bookOutputDir = path.join(rootOutputDir, book.id);
         try {
-            fs.mkdirSync(bookOutputDir, { recursive: true });
+            writeBook(book, path.join(inputDirectory, 'books', book.id), bookOutputDir, bookIndexLayout, chapterLayout);
         } catch (err) {
             console.log(err);
             return;
         }
-
-        // create book.html
-        const {
-            title,
-            languageCode,
-            genre,
-            shortDescription,
-            coverFileName,
-            licenseFileName,
-            status,
-            mirrors,
-            author,
-        } = book;
-
-        try {
-            const bookHTMLContent = ejs.render(
-                bookIndexLayout,
-                {
-                    title,
-                    languageCode,
-                    genre,
-                    shortDescription,
-                    coverFileName,
-                    licenseFileName,
-                    status,
-                    mirrors,
-                    author,
-                    params: book
-                }
-            );
-            fs.writeFileSync(path.join(bookOutputDir, 'index.html'), bookHTMLContent);
-        } catch (err) {
-            console.error(err);
-            return;
-        }
     });
+}
+
+function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) {
+    fs.mkdirSync(outputDir, { recursive: true });
+
+    // parse blurb file before creating book.html
+    const blurbMD = fs.readFileSync(path.join(workingDir, book.blurbFileName), 'utf-8');
+    book.content = marked.parse(blurbMD);
+
+    // create book.html
+    const {
+        content,
+        title,
+        languageCode,
+        genre,
+        shortDescription,
+        coverFileName,
+        licenseFileName,
+        status,
+        mirrors,
+        author,
+    } = book;
+
+    writeFileWithTemplate(path.join(outputDir, 'index.html'), indexTemplate, { content, title, languageCode, genre, shortDescription, coverFileName, licenseFileName, status, mirrors, author, params: book });
+
+    if (coverFileName) {
+        fs.cpSync(path.join(workingDir, book.coverFileName), path.join(outputDir, book.coverFileName), { preserveTimestamps: true });
+    }
+
+    if (book.licenseFileName) {
+        fs.cpSync(path.join(workingDir, book.licenseFileName), path.join(outputDir, book.licenseFileName), { preserveTimestamps: true });
+    }
+}
+
+function writeFileWithTemplate(outputPath, template, params) {
+    const content = ejs.render(template, params);
+    fs.writeFileSync(outputPath, content);
 }
 
 exports.htmlSite = htmlSite;
