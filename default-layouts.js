@@ -1,44 +1,50 @@
 // TODO
 const INDEX = `
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ languageCode }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= title %></title>
+
+    <title>{{ title }}</title>
   </head>
   <body>
     <div id="app"></div>
   </body>
-</html>`
+</html>
+`
 
 const BOOK_INDEX = `
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ languageCode }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= title %></title>
+
+    <title>{{ title }}</title>
   </head>
   <body>
     <h1>Content:</h1>
 
-    <%- content %>
+    {{{ content }}}
   </body>
-</html>`
+</html>
+`
 
 const CHAPTER = `
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ languageCode }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= title %></title>
+
+    <title>{{ title }}</title>
   </head>
   <body>
-    <%- content %>
+    {{{ content }}}
   </body>
-</html>`
+</html>
+`
 
 exports.INDEX = INDEX;
 exports.BOOK_INDEX = BOOK_INDEX;

@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const ejs = require('ejs');
+const handlebars = require('handlebars');
 const { marked } = require('marked');
 
 const defaultLayouts = require('./default-layouts');
@@ -96,8 +96,10 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
     }
 }
 
-function writeFileWithTemplate(outputPath, template, params) {
-    const content = ejs.render(template, params);
+function writeFileWithTemplate(outputPath, layoutSource, params) {
+//    const content = ejs.render(template, params);
+    const template = handlebars.compile(layoutSource);
+    const content = template(params);
     fs.writeFileSync(outputPath, content);
 }
 
