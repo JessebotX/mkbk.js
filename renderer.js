@@ -97,7 +97,7 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
 }
 
 function writeFileWithTemplate(outputPath, layoutSource, params) {
-//    const content = ejs.render(template, params);
+    // const content = ejs.render(template, params);
     const template = handlebars.compile(layoutSource);
     const content = template(params);
     fs.writeFileSync(outputPath, content);
