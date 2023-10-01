@@ -20,11 +20,34 @@ program
             renderer.htmlSite(fullCollection, inputDirectory);
         } catch (err) {
             if (err.code === 'ENOENT') {
-                console.log(`Cannot find mkbk.yml in directory "${inputDirectory}"`);
+                console.error(`Cannot find mkbk.yml in directory "${inputDirectory}"`);
             } else if (err.code === 'EACCES') {
-                console.log(`Cannot read mkbk.yml (lack of permissions?)`);
+                console.error(`Cannot read mkbk.yml (lack of permissions?)`);
+            } else {
+                console.error(err)
             }
         }
     });
+program
+    .command('verbose <inputDirection>')
+    .description('print the <inputDirectory> collection object to stdout')
+    .action((inputDirectory) => {
+        try {
+            const source = fs.readFileSync(path.join(inputDirectory, 'mkbk.yml'), 'utf-8');
+            const fullCollection = collection.readFromYAML(source, path.join(inputDirectory, BOOKS_DIRECTORY));
+
+            console.log('collection:', fullCollection);
+            console.log('books:     ', fullCollection.books);
+        } catch (err) {
+            if (err.code === 'ENOENT') {
+                console.error(`Cannot find mkbk.yml in directory "${inputDirectory}"`);
+            } else if (err.code === 'EACCES') {
+                console.error(`Cannot read mkbk.yml (lack of permissions?)`);
+            } else {
+                console.error(err)
+            }
+        }
+    });
+
 
 program.parse();

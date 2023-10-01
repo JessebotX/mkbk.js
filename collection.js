@@ -14,18 +14,18 @@ const BOOK_CONFIG_YAML_FILE = 'mkbk-book.yml';
  */
 function readFromYAML(source, booksDir) {
     const collection = yaml.parse(source);
-    collection.books = readBooks(booksDir);
+    collection.books = readBooks(booksDir, collection);
     return collection;
 }
 
-function readBooks(booksDir) {
+function readBooks(booksDir, collection) {
     const folders = fs.readdirSync(booksDir);
     const books = folders.filter(folder => fs.existsSync(path.join(booksDir, folder, 'mkbk-book.yml'))).map(folder => {
         const thisDir = path.join(booksDir, folder);
         const configFilePath = path.join(thisDir, BOOK_CONFIG_YAML_FILE);
         const configSource = fs.readFileSync(configFilePath, 'utf-8');
 
-        return book.readFromYAML(configSource, folder, path.join(thisDir, 'chapters'));
+        return book.readFromYAML(configSource, folder, path.join(thisDir, 'chapters'), collection);
     });
     return books;
 }

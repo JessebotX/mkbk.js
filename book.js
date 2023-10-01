@@ -4,20 +4,23 @@ const path = require('path');
 
 const chapter = require('./chapter');
 
-function readFromYAML(source, id, chaptersDir) {
+function readFromYAML(source, id, chaptersDir, collection) {
     book = yaml.parse(source);
     book.id = id;
-    book.chapters = readChapters(chaptersDir);
+    book.chapters = readChapters(chaptersDir, book, collection);
+    book.collection = collection;
     return book;
 }
 
-function readChapters(chaptersDir) {
+function readChapters(chaptersDir, book, collection) {
     const chapterFiles = fs.readdirSync(chaptersDir);
     let chapters = chapterFiles.filter(file => path.extname(file) === '.md').map(file => {
         const source = fs.readFileSync(path.join(chaptersDir, file));
         const chapterItem = chapter.read(source);
 
         chapterItem.id = file.replace(/.md$/i, '');
+        chapterItem.book = book;
+        chapterItem.collection = collection;
         return chapterItem;
     });
 
