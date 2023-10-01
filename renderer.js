@@ -73,6 +73,7 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
 
     // create book.html
     const {
+        id,
         content,
         title,
         languageCode,
@@ -85,19 +86,44 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
         author,
     } = book;
 
-    writeFileWithTemplate(path.join(outputDir, 'index.html'), indexTemplate, { content, title, languageCode, genre, shortDescription, coverFileName, licenseFileName, status, mirrors, author, params: book });
+    writeFileWithTemplate(
+        path.join(outputDir, 'index.html'),
+        indexTemplate,
+        {
+            id,
+            content,
+            title,
+            languageCode,
+            genre,
+            shortDescription,
+            coverFileName,
+            licenseFileName,
+            status,
+            mirrors,
+            author,
+            params: book
+        }
+    );
 
     if (coverFileName) {
         fs.cpSync(path.join(workingDir, book.coverFileName), path.join(outputDir, book.coverFileName), { preserveTimestamps: true });
     }
 
-    if (book.licenseFileName) {
+    if (licenseFileName) {
         fs.cpSync(path.join(workingDir, book.licenseFileName), path.join(outputDir, book.licenseFileName), { preserveTimestamps: true });
     }
+
+    book.chapters.forEach((chapter) => {
+        chapter.content = marked.parse(chapter.content);
+
+        const { title, date, lastmod, description } = chapter.frontmatter;
+        const { id } = chapter;
+
+        writeFileWithTemplate(path.join(outputDir, chapter.id + '.html'), chapterTemplate, { id, content, title, date, lastmod, description, params: chapter });
+    });
 }
 
 function writeFileWithTemplate(outputPath, layoutSource, params) {
-    // const content = ejs.render(template, params);
     const template = handlebars.compile(layoutSource);
     const content = template(params);
     fs.writeFileSync(outputPath, content);
