@@ -4,14 +4,13 @@
     "description": "A static site generator geared towards creatives distributing markdown-based books",
     "main": "index.js",
     "scripts": {
-        "build-linux": "pkg index.js -t node18-linux-x64 --compress GZip -o mkbk",
+        "build:linux": "pkg index.js -t node18-linux-x64 --compress GZip -o mkbk",
         "test": "node index.js build testdata/john-doe-collection"
     },
     "author": "Jessebot",
     "license": "MPL-2.0",
     "dependencies": {
         "commander": "^11.0.0",
-        "ejs": "^3.1.9",
         "gray-matter": "^4.0.3",
         "handlebars": "^4.7.8",
         "marked": "^9.0.3",
