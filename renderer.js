@@ -84,6 +84,7 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
         status,
         mirrors,
         author,
+        chapters,
     } = book;
 
     writeFileWithTemplate(
@@ -101,6 +102,7 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
             status,
             mirrors,
             author,
+            chapters,
             params: book
         }
     );
