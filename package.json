@@ -3,6 +3,9 @@
     "version": "0.0.4",
     "description": "A static site generator geared towards creatives distributing markdown-based books",
     "main": "index.js",
+    "bin": {
+        "mkbk": "index.js"
+    },
     "scripts": {
         "build:linux": "pkg index.js -t node18-linux-x64 --compress GZip -o mkbk",
         "test": "node index.js build testdata/john-doe-collection"
