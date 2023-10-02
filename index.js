@@ -9,7 +9,7 @@ const renderer = require('./renderer');
 
 const BOOKS_DIRECTORY = 'books';
 
-program.version('0.0.5');
+program.version('0.0.6');
 program
     .command('build <inputDirectory>')
     .description('builds a collection at <inputDirectory>')
