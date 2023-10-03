@@ -2,7 +2,6 @@
 
 const book = require('./book');
 
-
 function parse(workingDir, options) {
     const {
         title,
