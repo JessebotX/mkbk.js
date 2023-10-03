@@ -8,7 +8,7 @@
     },
     "scripts": {
         "build:linux": "pkg index.js -t node18-linux-x64 --compress GZip -o mkbk",
-        "test": "node index.js build testdata/john-doe-collection"
+        "test": "jest --verbose ./src"
     },
     "author": "Jessebot",
     "license": "MPL-2.0",
@@ -20,6 +20,7 @@
         "yaml": "^2.3.2"
     },
     "devDependencies": {
+        "jest": "^29.7.0",
         "pkg": "^5.8.1",
         "typescript": "^5.2.2"
     }
