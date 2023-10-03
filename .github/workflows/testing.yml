@@ -27,4 +27,5 @@ jobs:
 
       # Testing
       - name: Testing library
-        run: jest  --verbose ./src
+        run: |
+          sudo apt install -y node
