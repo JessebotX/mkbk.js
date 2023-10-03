@@ -84,6 +84,7 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
         status,
         mirrors,
         author,
+        chapters,
     } = book;
 
     writeFileWithTemplate(
@@ -101,6 +102,7 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
             status,
             mirrors,
             author,
+            chapters,
             params: book
         }
     );
@@ -114,13 +116,23 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
     }
 
     book.chapters.forEach((chapter) => {
-        chapter.content = marked.parse(chapter.content);
-
-        const { title, date, lastmod, description } = chapter.frontmatter;
-        const { id } = chapter;
-
-        writeFileWithTemplate(path.join(outputDir, chapter.id + '.html'), chapterTemplate, { id, content, title, date, lastmod, description, params: chapter });
+        writeChapter(chapter, outputDir, chapterTemplate);
     });
+}
+
+function writeChapter(chapter, outputDir, chapterTemplate) {
+    chapter.content = marked.parse(chapter.content);
+    const { id } = chapter;
+
+    writeFileWithTemplate(
+        path.join(outputDir, chapter.id + '.html'),
+        chapterTemplate,
+        {
+            id,
+            content: chapter.content,
+            frontmatter: chapter.frontmatter,
+            params: chapter
+        });
 }
 
 function writeFileWithTemplate(outputPath, layoutSource, params) {
