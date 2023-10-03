@@ -28,4 +28,6 @@ jobs:
       # Testing
       - name: Testing library
         run: |
-          sudo apt install -y node
+          sudo apt install -y nodejs npm
+          npm i
+          jest --verbose ./src
