@@ -30,4 +30,4 @@ jobs:
         run: |
           sudo apt install -y nodejs npm
           npm i
-          jest --verbose ./src
+          npm test
