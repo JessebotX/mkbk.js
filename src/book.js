@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 
+const fs = require('fs');
 const path = require('path');
+
+const chapter = require('./chapter');
 
 function parse(workingDir, options) {
     const {
@@ -8,15 +11,16 @@ function parse(workingDir, options) {
         content,
         title,
         languageCode,
-        genre,
+        tags,
         description,
-        coverPath,
-        licensePath,
+        coverRelativePath,
+        licenseRelativePath,
         status,
         mirrors,
         author,
-        chaptersDir,
     } = options;
+
+    let { chaptersDir } = options;
 
     if (!chaptersDir) {
         chaptersDir = path.join(workingDir, 'chapters');
@@ -27,7 +31,7 @@ function parse(workingDir, options) {
         content,
         title,
         languageCode,
-        genre,
+        tags,
         description,
         coverRelativePath,
         licenseRelativePath,
@@ -53,9 +57,9 @@ function readChapters(chaptersDir) {
         return chapterItem;
     });
 
-    setChaptersNextPrev(chapters);
+    // setChaptersNextPrev(chapters);
 
     return chapters;
 }
 
-exports.
+exports.parse = parse;

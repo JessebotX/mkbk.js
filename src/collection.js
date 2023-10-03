@@ -6,13 +6,14 @@ function parse(workingDir, options) {
     const {
         title,
         baseURL,
-        languageCode,
         description,
         faviconPath,
         customCollectionCSSPath,
         customBookCSSPath,
-        customChapterCSSPath,
+        customChapterCSSPath
     } = options;
+
+    let { languageCode } = options;
 
     if (!languageCode) {
         languageCode = 'en'; // probably what most people want
@@ -30,7 +31,7 @@ function parse(workingDir, options) {
         customChapterCSSPath,
     };
 
-    if (options.books.length <= 0) {
+    if (!options.books) {
         return collection;
     }
 
@@ -44,6 +45,4 @@ function parse(workingDir, options) {
     return collection;
 }
 
-exports = {
-    parse
-};
+exports.parse = parse;

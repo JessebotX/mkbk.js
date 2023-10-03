@@ -2,7 +2,7 @@
 
 const matter = require('gray-matter');
 
-function parse(id, options) {
+function parse(id, source) {
     const { data: frontmatter, content } = matter(source);
 
     return {
@@ -12,6 +12,5 @@ function parse(id, options) {
     };
 }
 
-exports = {
-    parse
-}
+exports.parse = parse;
+
