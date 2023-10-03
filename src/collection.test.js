@@ -64,5 +64,5 @@ test('Create a collection with no books', () => {
                 baseURL: 'https://example.com',
             })
             .books
-    ).toBe(undefined);
+    ).toBeUndefined();
 });
