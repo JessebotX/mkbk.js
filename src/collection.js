@@ -8,15 +8,23 @@ function parse(workingDir, options) {
         baseURL,
         description,
         faviconPath,
-        customCollectionCSSPath,
-        customBookCSSPath,
-        customChapterCSSPath
+        customCollectionCSSRelativePath,
+        customBookCSSRelativePath,
+        customChapterCSSRelativePath
     } = options;
 
-    let { languageCode } = options;
+    let { languageCode, layoutRelativeDir, outputRelativeDir } = options;
 
     if (!languageCode) {
         languageCode = 'en'; // probably what most people want
+    }
+
+    if (!outputRelativeDir) {
+        outputRelativeDir = 'out';
+    }
+
+    if (!layoutRelativeDir) {
+        layoutRelativeDir = 'layout';
     }
 
     const collection = {
@@ -26,9 +34,11 @@ function parse(workingDir, options) {
         description,
         faviconPath,
         workingDir,
-        customCollectionCSSPath,
-        customBookCSSPath,
-        customChapterCSSPath,
+        layoutRelativeDir,
+        outputRelativeDir,
+        customCollectionCSSRelativePath,
+        customBookCSSRelativePath,
+        customChapterCSSRelativePath,
     };
 
     if (!options.books) {
