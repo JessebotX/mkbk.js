@@ -20,10 +20,14 @@ function parse(workingDir, options) {
         author,
     } = options;
 
-    let { chaptersDir } = options;
+    let { blurbRelativePath, chaptersDir } = options;
 
     if (!chaptersDir) {
         chaptersDir = path.join(workingDir, 'chapters');
+    }
+
+    if (!blurbRelativePath) {
+        blurbRelativePath = path.join(workingDir, 'index.md');
     }
 
     const book = {
@@ -35,6 +39,7 @@ function parse(workingDir, options) {
         description,
         coverRelativePath,
         licenseRelativePath,
+        blurbRelativePath,
         status,
         mirrors,
         author,
