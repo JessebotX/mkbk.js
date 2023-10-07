@@ -39,6 +39,8 @@ function generateHTMLSite(collection) {
     // collection index
     const { title, description, baseURL, languageCode, books } = collection;
 
+    handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
+
     try {
         writeFileWithTemplate(
             path.join(rootOutputDir, 'index.html'), indexLayout, {
@@ -138,15 +140,30 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
         });
     }
 
-//    book.chapters.forEach((chapter) => {
-//        writeChapter(chapter, outputDir, chapterTemplate);
-//    });
+    book.chapters.forEach((chapter) => {
+        writeChapter(chapter, outputDir, chapterTemplate);
+    });
 }
 
 function writeFileWithTemplate(outputPath, layoutSource, params) {
     const template = handlebars.compile(layoutSource);
     const content = template(params);
     fs.writeFileSync(outputPath, content);
+}
+
+function writeChapter(chapter, outputDir, chapterTemplate) {
+    chapter.content = marked.parse(chapter.content);
+    const { id } = chapter;
+
+    writeFileWithTemplate(
+        path.join(outputDir, chapter.id + '.html'),
+        chapterTemplate,
+        {
+            id,
+            content: chapter.content,
+            frontmatter: chapter.frontmatter,
+            params: chapter
+        });
 }
 
 exports.generateHTMLSite = generateHTMLSite;

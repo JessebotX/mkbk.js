@@ -41,6 +41,10 @@ const CHAPTER = `
   </head>
   <body>
     {{{ content }}}
+
+    {{#with frontmatter.date}}
+    {{dateFormat . "YYYY-MM-DDTHH:mm:ssZ"}}
+    {{/with}}
   </body>
 </html>
 `;
