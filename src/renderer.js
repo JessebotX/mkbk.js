@@ -14,21 +14,21 @@ function generateHTMLSite(collection) {
 
     let indexLayout = defaultLayouts.INDEX;
     try {
-
+        indexLayout = fs.readFileSync(path.join(layoutDir, 'index.html'), 'utf-8');
     } catch (err) {
         console.log(`Using default chapter layout since it failed to read ${path.join(layoutDir, 'index.html')}`);
     }
 
     let bookIndexLayout = defaultLayouts.BOOK_INDEX;
     try {
-        bookIndexLayout = fs.readFileSync(path.join(layoutsDir, 'book.html'), 'utf-8');
+        bookIndexLayout = fs.readFileSync(path.join(layoutDir, 'book.html'), 'utf-8');
     } catch (err) {
         console.log(`Using default chapter layout since it failed to read ${path.join(layoutDir, 'book.html')}`);
     }
 
     let chapterLayout = defaultLayouts.CHAPTER;
     try {
-        chapterLayout = fs.readFileSync(path.join(layoutsDir, 'chapter.html'), 'utf-8');
+        chapterLayout = fs.readFileSync(path.join(layoutDir, 'chapter.html'), 'utf-8');
     } catch (err) {
         console.log(`Using default chapter layout since it failed to read ${path.join(layoutDir, 'chapter.html')}`);
     }
