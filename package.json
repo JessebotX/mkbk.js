@@ -1,6 +1,6 @@
 {
     "name": "mkbk",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "A static site generator geared towards creatives distributing markdown-based books",
     "main": "src/index.js",
     "scripts": {
