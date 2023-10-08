@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const handlebars = require('handlebars');
 const { marked } = require('marked');
+const epub = require('epub-gen-memory').default;
 
 const defaultLayouts = require('./default-layouts');
 
@@ -85,7 +86,7 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
         const blurbMD = fs.readFileSync(blurbPath, 'utf-8');
         book.content = marked.parse(blurbMD);
     } else {
-        book.content = "No blurb provided..."
+        book.content = "No blurb provided...";
     }
 
     // create book index.html
@@ -140,9 +141,32 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
         });
     }
 
-    book.chapters.forEach((chapter) => {
+    let epubChapters = book.chapters.forEach((chapter) => {
         writeChapter(chapter, outputDir, chapterTemplate);
+
+        return {
+            title: chapter.frontmatter.title,
+            content: chapter.content,
+        }
     });
+    console.log(epubChapters);
+
+    let chaptersObjectArray = [];
+    book.chapters.forEach((chapter) => {
+        chaptersObjectArray.push({ title: chapter.frontmatter.title, content: chapter.content });
+    });
+
+    // create epub
+    epub({
+        title,
+        author: author.name,
+        description,
+        cover: coverRelativePath,
+        lang: languageCode,
+    }, chaptersObjectArray).then(
+        content => fs.writeFileSync(`${path.join(outputDir, id)}.epub`, Buffer.from(content)),
+        err => console.error(err)
+    );
 }
 
 function writeFileWithTemplate(outputPath, layoutSource, params) {
