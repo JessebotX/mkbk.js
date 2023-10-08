@@ -1,6 +1,7 @@
 const renderer = require('./renderer');
 const collection = require('./collection');
 
+// note: working dir relative to the root dir of the project
 const config = collection.parse(
     './testdata/john-doe-collection',
     {
