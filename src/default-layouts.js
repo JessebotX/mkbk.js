@@ -1,5 +1,4 @@
-const INDEX = `
-<!DOCTYPE html>
+const INDEX = `<!DOCTYPE html>
 <html lang="{{ languageCode }}">
   <head>
     <meta charset="utf-8">
@@ -13,8 +12,7 @@ const INDEX = `
 </html>
 `;
 
-const BOOK_INDEX = `
-<!DOCTYPE html>
+const BOOK_INDEX = `<!DOCTYPE html>
 <html lang="{{ languageCode }}">
   <head>
     <meta charset="utf-8">
@@ -30,8 +28,7 @@ const BOOK_INDEX = `
 </html>
 `;
 
-const CHAPTER = `
-<!DOCTYPE html>
+const CHAPTER = `<!DOCTYPE html>
 <html lang="{{ languageCode }}">
   <head>
     <meta charset="utf-8">
@@ -49,6 +46,35 @@ const CHAPTER = `
 </html>
 `;
 
+const RSS = `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ title }}</title>
+    <link>{{ parent.baseURL }}/{{ id }}</link>
+    {{#with description}}
+    <description>{{ . }}</description>
+    {{/with}}
+    <generator>mkbk --- github.com/JessebotX/mkbk</generator>
+    <language>{{languageCode}}</language>
+    {{#each chapters}}
+    <item>
+      <title>{{ frontmatter.title }}</title>
+      <link>{{ parent.parent.baseURL }}/{{parent.id}}/{{id}}.html</link>
+      {{#with frontmatter.date}}
+      <pubDate>{{dateFormat . "YYYY-MM-DDTHH:mm:ssZ"}}</pubDate>
+      {{/with}}
+      <guid>{{ parent.parent.baseURL }}/{{ parent.id }}/{{ id }}.html</guid>
+      {{#with frontmatter.description}}
+      <description>{{ . }}</description>
+      {{else}}
+      <description>{{frontmatter.title}}</description>
+      {{/with}}
+    </item>
+    {{/each}}
+  </channel>
+</rss>
+`
+
 exports.INDEX = INDEX;
 exports.BOOK_INDEX = BOOK_INDEX;
 exports.CHAPTER = CHAPTER;
+exports.RSS = RSS;

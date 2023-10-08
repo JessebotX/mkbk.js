@@ -57,7 +57,7 @@ function generateHTMLSite(collection) {
     collection.books.forEach((book) => {
         const bookOutputDir = path.join(rootOutputDir, book.id);
         try {
-            writeBook(book, path.join(inputDir, 'books', book.id), bookOutputDir, bookIndexLayout, chapterLayout);
+            writeBook(book, path.join(inputDir, 'books', book.id), bookOutputDir, bookIndexLayout, chapterLayout, collection);
         } catch (err) {
             console.error(err);
             return;
@@ -77,7 +77,7 @@ function copyDir(input, output) {
     }
 }
 
-function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) {
+function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate, collection) {
     fs.mkdirSync(outputDir, { recursive: true });
 
     // parse blurb file before creating book.html
@@ -105,56 +105,46 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate) 
         chapters,
     } = book;
 
+    book.parent = collection;
+
+    const bookTemplateObject = {
+        id,
+        content,
+        title,
+        languageCode,
+        tags,
+        description,
+        coverRelativePath,
+        licenseRelativePath,
+        status,
+        mirrors,
+        author,
+        chapters,
+        parent: book.parent,
+        params: book
+    };
+
+    copyFileFromWorkingDir(coverRelativePath, outputDir, workingDir);
+    copyFileFromWorkingDir(licenseRelativePath, outputDir, workingDir);
+
+    book.chapters.forEach(
+        (chapter) => writeChapter(chapter, outputDir, chapterTemplate, book));
+
+    let chaptersObjectArray = [];
+    book.chapters.forEach(
+        (chapter) => chaptersObjectArray.push({ title: chapter.frontmatter.title, content: chapter.content }));
+
     writeFileWithTemplate(
         path.join(outputDir, 'index.html'),
         indexTemplate,
-        {
-            id,
-            content,
-            title,
-            languageCode,
-            tags,
-            description,
-            coverRelativePath,
-            licenseRelativePath,
-            status,
-            mirrors,
-            author,
-            chapters,
-            params: book
-        }
+        bookTemplateObject
     );
 
-    if (coverRelativePath) {
-        fs.cp(path.join(workingDir, coverRelativePath), path.join(outputDir, coverRelativePath), { preserveTimestamps: true }, (err) => {
-            if (err) {
-                console.error(err);
-            }
-        });
-    }
-
-    if (licenseRelativePath) {
-        fs.cp(path.join(workingDir, licenseRelativePath), path.join(outputDir, licenseRelativePath), { preserveTimestamps: true }, (err) => {
-            if (err) {
-                console.error(err);
-            }
-        });
-    }
-
-    let epubChapters = book.chapters.forEach((chapter) => {
-        writeChapter(chapter, outputDir, chapterTemplate);
-
-        return {
-            title: chapter.frontmatter.title,
-            content: chapter.content,
-        }
-    });
-    console.log(epubChapters);
-
-    let chaptersObjectArray = [];
-    book.chapters.forEach((chapter) => {
-        chaptersObjectArray.push({ title: chapter.frontmatter.title, content: chapter.content });
-    });
+    writeFileWithTemplate(
+        path.join(outputDir, 'rss.xml'),
+        defaultLayouts.RSS,
+        bookTemplateObject
+    );
 
     // create epub
     epub({
@@ -175,19 +165,35 @@ function writeFileWithTemplate(outputPath, layoutSource, params) {
     fs.writeFileSync(outputPath, content);
 }
 
-function writeChapter(chapter, outputDir, chapterTemplate) {
+function copyFileFromWorkingDir(input, outputDir, workingDir) {
+    if (input) {
+        fs.cp(path.join(workingDir, input), path.join(outputDir, input), { preserveTimestamps: true }, (err) => {
+            if (err) {
+                console.error(err);
+            }
+        });
+    }
+}
+
+function writeChapter(chapter, outputDir, chapterTemplate, book) {
     chapter.content = marked.parse(chapter.content);
     const { id } = chapter;
+    chapter.parent = book;
+
+
+    const chapterTemplateObject = {
+        id,
+        content: chapter.content,
+        frontmatter: chapter.frontmatter,
+        parent: chapter.parent,
+        params: chapter
+    };
 
     writeFileWithTemplate(
         path.join(outputDir, chapter.id + '.html'),
         chapterTemplate,
-        {
-            id,
-            content: chapter.content,
-            frontmatter: chapter.frontmatter,
-            params: chapter
-        });
+        chapterTemplateObject
+    );
 }
 
 exports.generateHTMLSite = generateHTMLSite;
