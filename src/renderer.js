@@ -57,7 +57,7 @@ function generateHTMLSite(collection) {
     collection.books.forEach((book) => {
         const bookOutputDir = path.join(rootOutputDir, book.id);
         try {
-            writeBook(book, path.join(inputDir, 'books', book.id), bookOutputDir, bookIndexLayout, chapterLayout, collection);
+            writeBook(book, book.workingDir, bookOutputDir, bookIndexLayout, chapterLayout, collection);
         } catch (err) {
             console.error(err);
             return;
