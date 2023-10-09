@@ -147,13 +147,13 @@ function writeBook(book, workingDir, outputDir, indexTemplate, chapterTemplate, 
     );
 
     // create epub
-    epub({
-        title,
-        author: author.name,
-        description,
-        cover: coverRelativePath,
-        lang: languageCode,
-    }, chaptersObjectArray).then(
+    const epubObject = {title};
+    if (author && author.name) epubObject.author = author.name;
+    if (description) epubObject.description = description;
+    if (coverRelativePath) epubObject.cover = coverRelativePath;
+    if (languageCode) epubObject.lang = languageCode;
+
+    epub(epubObject, chaptersObjectArray).then(
         content => fs.writeFileSync(`${path.join(outputDir, id)}.epub`, Buffer.from(content)),
         err => console.error(err)
     );
