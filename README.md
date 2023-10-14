@@ -76,14 +76,35 @@ Ensure you have `node.js` and `npm` installed.
 ### Folder Structure
 `mkbk` utilizes a straightforward folder structure for your source files.
 
-
 ```bash
 PROJECT_ROOT/ # Also the workingDir specified in collection.parse(workingDir, options)
     package.json
     index.js
+    books/ # source directory containing a bunch of books
+      book-id-1/
+        index.md
+        cover.webp
+        chapters/
+          markdown-file-1.md
+          markdown-file-2.md
+    layout/ # customize internal html generation
+      index.html
+      book.html
+      chapter.html
+      assets/
+        styles.css
+        placeholder-image.png
     out/ # This is where the final site is created
-        book-id-1/
-            
+      index.html
+      styles.css
+      placeholder-image.png
+      book-id-1/
+        index.html
+        cover.webp
+        markdown-file-1.html
+        markdown-file-2.html
+        rss.xml
+        book-id-1.epub
     # ...
 ```
 
