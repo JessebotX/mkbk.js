@@ -42,7 +42,7 @@ Ensure you have `node.js` and `npm` installed.
            title: "Book Title",
            languageCode: 'en',
            tags: ["Science-fiction", "Fantasy", "Action", "Adventure"],
-           description: 'One or two sentences describing the book.'
+           description: 'One or two sentences describing the book.',
            coverRelativePath: 'cover.webp',
            blurbRelativePath: 'index.md',
            status: 'Completed',
@@ -53,7 +53,7 @@ Ensure you have `node.js` and `npm` installed.
            title: "Book Title 2",
            languageCode: 'en',
            tags: ["Dark Fantasy", "Action", "Thriller"],
-           description: 'One or two sentences describing the book.'
+           description: 'One or two sentences describing the book.',
            coverRelativePath: 'cover.webp',
            blurbRelativePath: 'index.md',
            status: 'On Hiatus',
