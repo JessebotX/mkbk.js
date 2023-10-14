@@ -1,12 +1,17 @@
 {
     "name": "mkbk",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "description": "A static site generator geared towards creatives distributing markdown-based books",
     "main": "src/index.js",
     "scripts": {
         "build:linux": "pkg index.js -t node18-linux-x64 --compress GZip -o mkbk",
         "test": "jest --verbose ./src"
     },
+	"homepage": "https://github.com/JessebotX/mkbk.js#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/JessebotX/mkbk.js"
+	},
     "author": "Jessebot",
     "license": "MPL-2.0",
     "dependencies": {
