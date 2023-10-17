@@ -94,16 +94,16 @@ export function parse(options: CollectionOptions): Collection {
 	return collection;
 }
 
-console.log(parse({title:'hello',
-                   workingDir: 'testdata/john-doe-collection',
-                   books: [
-                       {
-                           id: 'warp',
-                           workingDir: 'testdata/john-doe-collection/books/1',
-                           title: 'title',
-                           coverRelPath: 'cover.webp',
-                       },
-                   ]}));
+// console.log(parse({title:'hello',
+//                    workingDir: 'testdata/john-doe-collection',
+//                    books: [
+//                        {
+//                            id: 'warp',
+//                            workingDir: 'testdata/john-doe-collection/books/1',
+//                            title: 'title',
+//                            coverRelPath: 'cover.webp',
+//                        },
+//                    ]}));
 
 // console.log(parse({title:'hello',
 //                    workingDir: 'testdata/john-doe-collection',
