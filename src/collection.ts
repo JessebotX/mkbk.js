@@ -27,6 +27,9 @@ export interface Collection extends CollectionOptions {
     params: CollectionOptions;
 }
 
+/**
+ * Parse a collection of books.
+ */
 export function parse(options: CollectionOptions): Collection {
     const {
         title,
@@ -84,10 +87,23 @@ export function parse(options: CollectionOptions): Collection {
 }
 
 console.log(parse({title:'hello',
+                   workingDir: 'testdata/john-doe-collection',
                    books: [
                        {
                            id: 'warp',
+                           workingDir: 'testdata/john-doe-collection/books/1',
                            title: 'title',
                            coverRelPath: 'cover.webp',
                        }
                    ]}));
+
+console.log(parse({title:'hello',
+                   workingDir: 'testdata/john-doe-collection',
+                   books: [
+                       {
+                           id: 'warp',
+                           workingDir: 'testdata/john-doe-collection/books/1',
+                           title: 'title',
+                           coverRelPath: 'cover.webp',
+                       }
+                   ]}).books[0].chapters);

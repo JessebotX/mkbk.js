@@ -3,6 +3,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+import * as chapter from './chapter';
+import { Chapter } from './chapter';
+
 interface LinkItem {
     name: string;
     link: string;
@@ -18,8 +21,8 @@ interface Author {
 export interface BookOptions {
     id: string;
     title: string;
-    workingDir?: string;
-    chaptersDir?: string;
+    workingDir: string;
+    chaptersRelDir?: string;
     coverRelPath?: string;
     blurbRelPath?: string;
     languageCode?: string;
@@ -34,13 +37,17 @@ export interface BookOptions {
 }
 
 export interface Book extends BookOptions {
-    chaptersDir: string;
+    chaptersRelDir: string;
     languageCode: string;
     blurbRelPath: string;
     params: BookOptions;
     content?: string;
+    chapters?: Chapter[];
 }
 
+/**
+ * Parse a configuration for a single book
+ */
 export function parse(options: BookOptions): Book {
     console.log(options);
     const {
@@ -52,10 +59,11 @@ export function parse(options: BookOptions): Book {
         copyright,
         status,
         mirrors,
-        author
+        author,
+        workingDir
     } = options;
 
-    let { languageCode, blurbRelPath, chaptersDir } = options;
+    let { languageCode, blurbRelPath, chaptersRelDir } = options;
 
     if (!languageCode) {
         languageCode = 'en';
@@ -65,13 +73,14 @@ export function parse(options: BookOptions): Book {
         blurbRelPath = 'index.md';
     }
 
-    if (!chaptersDir) {
-        chaptersDir = 'chapters';
+    if (!chaptersRelDir) {
+        chaptersRelDir = 'chapters';
     }
 
     const book: Book = {
         languageCode,
-        chaptersDir,
+        workingDir,
+        chaptersRelDir,
         blurbRelPath,
         id,
         title,
@@ -83,7 +92,21 @@ export function parse(options: BookOptions): Book {
         mirrors,
         author,
         params: options,
+        chapters: parseAllChapters(path.join(workingDir, chaptersRelDir)),
     };
 
     return book;
+}
+
+function parseAllChapters(dir: string): Chapter[] {
+    const chapterFiles = fs.readdirSync(dir);
+    let chapters = chapterFiles.filter(file => path.extname(file) === '.md').map(file => {
+        const source = fs.readFileSync(path.join(dir, file)).toString();
+        const id = file.replace(/.md$/i, '');
+        const chapterItem = chapter.parse({ id, source });
+
+        return chapterItem;
+    });
+
+    return chapters;
 }
