@@ -109,6 +109,6 @@ PROJECT_ROOT/ # Also the workingDir specified in collection.parse(workingDir, op
 ```
 
 ## TODO
-* TODO: Implement CLI
-* TODO: TypeScript support
-* TODO: Check out how tailwind implements standalone cli <https://github.com/tailwindlabs/tailwindcss/tree/master/standalone-cli>
+* [x] TODO: TypeScript support
+* [ ] TODO: Implement CLI
+* [ ] Fix Bug where layout/assets is required when it is optional
