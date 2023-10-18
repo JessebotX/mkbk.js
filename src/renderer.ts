@@ -159,21 +159,23 @@ function copy(inputPath: string, outputPath: string, recursive: boolean = true) 
 	}
 }
 
-let obj = collection.parse({
-	title:'hello',
-	workingDir: 'testdata/john-doe-collection',
-	baseURL: 'https://example.com',
-	books: [
-		{
-			id: 'warp',
-			workingDir: 'testdata/john-doe-collection/books/1',
-			title: 'title',
-			coverRelPath: 'cover.webp',
-		},
-	]
-});
-try {
-	genCollectionStaticSite(obj);
-} catch(err) {
-	console.error(err);
-}
+// Example Usage
+// =============
+// let obj = collection.parse({
+// 	title:'hello',
+// 	workingDir: 'testdata/john-doe-collection',
+// 	baseURL: 'https://example.com',
+// 	books: [
+// 		{
+// 			id: 'warp',
+// 			workingDir: 'testdata/john-doe-collection/books/1',
+// 			title: 'title',
+// 			coverRelPath: 'cover.webp',
+// 		},
+// 	]
+// });
+// try {
+// 	genCollectionStaticSite(obj);
+// } catch(err) {
+// 	console.error(err);
+// }
