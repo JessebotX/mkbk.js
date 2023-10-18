@@ -44,26 +44,17 @@ export const RSS = `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>{{ title }}</title>
     <link>{{ parent.baseURL }}/{{ id }}</link>
-    {{#with description}}
-    <description>{{ . }}</description>
-    {{/with}}
+    <description>{{ description }}</description>
     <generator>mkbk --- github.com/JessebotX/mkbk</generator>
     <language>{{languageCode}}</language>
-    {{#each chapters}}
+
     <item>
       <title>{{ frontmatter.title }}</title>
       <link>{{ parent.parent.baseURL }}/{{parent.id}}/{{id}}.html</link>
-      {{#with frontmatter.date}}
-      <pubDate>{{dateFormat . "YYYY-MM-DDTHH:mm:ssZ"}}</pubDate>
-      {{/with}}
       <guid>{{ parent.parent.baseURL }}/{{ parent.id }}/{{ id }}.html</guid>
-      {{#with frontmatter.description}}
-      <description>{{ . }}</description>
-      {{else}}
-      <description>{{frontmatter.title}}</description>
-      {{/with}}
+      <description>{{ description }}</description>
     </item>
-    {{/each}}
+
   </channel>
 </rss>
 `
