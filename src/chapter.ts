@@ -1,4 +1,5 @@
 import * as matter from 'gray-matter';
+import { Book } from './book';
 
 export interface ChapterData {
     content: string;
@@ -7,6 +8,7 @@ export interface ChapterData {
 
 export interface Chapter extends ChapterData {
     id: string;
+	parent?: Book;
 }
 
 export interface ChapterOptions {
