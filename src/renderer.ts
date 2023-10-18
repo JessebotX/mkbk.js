@@ -112,7 +112,6 @@ function writeBook(book: Book, outputDir: string, bookTemplate: string, chapterT
 	);
 
 	// build rss feed
-	console.log(book);
 	writeFileWithTemplate(
 		path.join(outputDir, 'rss.xml'),
 		defaultLayouts.RSS,
