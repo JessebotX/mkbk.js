@@ -22,26 +22,20 @@ export const BOOK_INDEX = `<!DOCTYPE html>
   </head>
   <body>
     <h1>Content:</h1>
-
-    {{{ content }}}
   </body>
 </html>
 `;
 
 export const CHAPTER = `<!DOCTYPE html>
-<html lang="{{ languageCode }}">
+<html lang="{{ parent.languageCode }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ title }}</title>
   </head>
-  <body>
-    {{{ content }}}
+<body>
 
-    {{#with frontmatter.date}}
-    {{dateFormat . "YYYY-MM-DDTHH:mm:ssZ"}}
-    {{/with}}
   </body>
 </html>
 `;
