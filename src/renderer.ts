@@ -36,13 +36,20 @@ export function genCollectionStaticSite(collection: Collection) {
 
 	collection.books.forEach((book) => {
 		const bookOutputDir = path.join(rootOutputDir, book.id);
-		book.parent = collection;
-		writeBook(book, bookOutputDir, bookTemplate, chapterTemplate, nunjucksEnv);
+		writeBook(
+			book,
+			bookOutputDir,
+			bookTemplate,
+			chapterTemplate,
+			collection,
+			nunjucksEnv
+		);
 	});
 }
 
-function writeBook(book: Book, outputDir: string, bookTemplate: string, chapterTemplate: string, env) {
+function writeBook(book: Book, outputDir: string, bookTemplate: string, chapterTemplate: string, collection: Collection, env) {
 	fs.mkdirSync(outputDir, { recursive: true });
+	book.parent = collection;
 
 	const blurbPath = path.join(book.workingDir, book.blurbRelPath);
 	if (fs.existsSync(blurbPath)) {
@@ -105,6 +112,7 @@ function writeBook(book: Book, outputDir: string, bookTemplate: string, chapterT
 	);
 
 	// build rss feed
+	console.log(book);
 	writeFileWithTemplate(
 		path.join(outputDir, 'rss.xml'),
 		defaultLayouts.RSS,
@@ -155,6 +163,7 @@ function copy(inputPath: string, outputPath: string, recursive: boolean = true) 
 let obj = collection.parse({
 	title:'hello',
 	workingDir: 'testdata/john-doe-collection',
+	baseURL: 'https://example.com',
 	books: [
 		{
 			id: 'warp',

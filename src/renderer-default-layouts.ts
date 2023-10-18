@@ -44,16 +44,27 @@ export const RSS = `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>{{ title }}</title>
     <link>{{ parent.baseURL }}/{{ id }}</link>
+    {% if description -%}
     <description>{{ description }}</description>
+    {%- endif %}
     <generator>mkbk --- github.com/JessebotX/mkbk</generator>
     <language>{{languageCode}}</language>
 
+    {%- for chapter in chapters %}
     <item>
-      <title>{{ frontmatter.title }}</title>
-      <link>{{ parent.parent.baseURL }}/{{parent.id}}/{{id}}.html</link>
-      <guid>{{ parent.parent.baseURL }}/{{ parent.id }}/{{ id }}.html</guid>
-      <description>{{ description }}</description>
+      <title>{{ chapter.frontmatter.title }}</title>
+      <link>
+        {{ chapter.parent.parent.baseURL }}/{{chapter.parent.id}}/{{id}}.html
+      </link>
+      <guid>
+        {{chapter.parent.parent.baseURL}}/{{chapter.parent.id}}/{{id}}.html
+      </guid>
+
+      {% if chapter.description -%}
+      <description>{{ chapter.description }}</description>
+      {%- endif %}
     </item>
+    {% endfor -%}
 
   </channel>
 </rss>
