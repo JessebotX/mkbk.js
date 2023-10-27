@@ -1,4 +1,6 @@
 # mkbk
+![npm](https://img.shields.io/npm/dw/mkbk)
+
 [![CI](https://github.com/JessebotX/mkbk.js/actions/workflows/testing.yml/badge.svg)](https://github.com/JessebotX/mkbk.js/actions/workflows/testing.yml)
 
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
