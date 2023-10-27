@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc",
         "build:linux": "pkg index.js -t node18-linux-x64 --compress GZip -o mkbk",
-        "test": "jest --verbose ./src"
+        "test": "jest --verbose"
     },
     "homepage": "https://github.com/JessebotX/mkbk.js#readme",
     "repository": {

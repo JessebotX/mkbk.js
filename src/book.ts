@@ -64,6 +64,14 @@ export function parse(options: BookOptions): Book {
 		workingDir
 	} = options;
 
+	if (!id) {
+		throw new Error("mkbk book defined does not have an id");
+	}
+
+	if (!workingDir) {
+		throw new Error("mkbk book defined does not have workingDir defined");
+	}
+
 	let { languageCode, blurbRelPath, chaptersRelDir } = options;
 
 	if (!languageCode) {
