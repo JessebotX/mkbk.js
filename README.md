@@ -1,20 +1,22 @@
 # mkbk
 [![CI](https://github.com/JessebotX/mkbk.js/actions/workflows/testing.yml/badge.svg)](https://github.com/JessebotX/mkbk.js/actions/workflows/testing.yml)
 
-📚 A Book Library SSG.
+[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
+
+> 📚 A book library static site generator .
 
 A static site generator geared towards creatives looking to distribute their markdown-based written works.
 
 ## Features
-* Generate a full static site from a straightforward organization of markdown files
-* Automatically creates [RSS](https://en.wikipedia.org/wiki/RSS) feeds and [EPUB](https://en.wikipedia.org/wiki/EPUB) eBook files for every book in your library
-* Customization: provides powerful theming capabilities allowing you to customize the internal HTML output using the [Handlebars](https://handlebarsjs.com/) templating engine.
-* Extensible: returns a collection object which prevents lock-in to a specific output paradigm (ie. _bring your own renderer_) and allows you to generate other non-HTML formats.
+- Generate a full static site from a straightforward organization of markdown files
+- Creates [RSS](https://en.wikipedia.org/wiki/RSS) feeds and [EPUB](https://en.wikipedia.org/wiki/EPUB) files for every book
+- **Customization**: provides powerful theming capabilities allowing you to customize the internal HTML output using the Nunjucks templating engine.
+- **Extensible**: returns a collection object which prevents lock-in to a specific output paradigm (ie. _bring your own renderer_) and allows you to generate other non-HTML formats.
 
 ## COPYING
-See [LICENSE.txt](LICENSE.txt)
-
 SPDX-License-Identifier: `MPL-2.0`
+
+See [LICENSE.txt](LICENSE.txt)
 
 ## Usage
 ### Installation and Quickstart
@@ -31,33 +33,33 @@ Ensure you have `node.js` and `npm` installed.
 
    // Create a collection project
    const project = collection.parse(
-     '.', // Specify working directory
      {
        title: 'Book Collection Web Title',
-       baseURL: 'https://example.com/books',
+       workingDir: '.',
+       baseURL: 'https://example.com/books', // REQUIRED for RSS feeds
        languageCode: 'en',
        books: [
          {
-           id: 'unique-book-id',
+           id: 'unique-book-id',       // REQUIRED
+           workingDir: './books/warp', // REQUIRED
            title: "Book Title",
            languageCode: 'en',
-           tags: ["Science-fiction", "Fantasy", "Action", "Adventure"],
+           tags: ["Science Fiction", "Fantasy", "Action", "Adventure"],
            description: 'One or two sentences describing the book.',
-           coverRelativePath: 'cover.webp',
-           blurbRelativePath: 'index.md',
+           coverRelPath: 'cover.webp',
+           blurbRelPath: 'index.md',
            status: 'Completed',
-           workingDir: './books/warp'
          },
          {
-           id: 'unique-book-id-2',
+           id: 'unique-book-id-2', // REQUIRED
+           workingDir: './books/warp', // REQUIRED
            title: "Book Title 2",
            languageCode: 'en',
            tags: ["Dark Fantasy", "Action", "Thriller"],
            description: 'One or two sentences describing the book.',
-           coverRelativePath: 'cover.webp',
-           blurbRelativePath: 'index.md',
+           coverRelPath: 'cover.webp',
+           blurbRelPath: 'index.md',
            status: 'On Hiatus',
-           workingDir: './books/warp'
          },
        ]
      }
@@ -77,7 +79,7 @@ Ensure you have `node.js` and `npm` installed.
 `mkbk` utilizes a straightforward folder structure for your source files.
 
 ```bash
-PROJECT_ROOT/ # Also the workingDir specified in collection.parse(workingDir, options)
+PROJECT_ROOT/
     package.json
     index.js
     books/ # source directory containing a bunch of books
@@ -107,8 +109,3 @@ PROJECT_ROOT/ # Also the workingDir specified in collection.parse(workingDir, op
         book-id-1.epub
     # ...
 ```
-
-## TODO
-* [x] TODO: TypeScript support
-* [ ] TODO: Implement CLI
-* [ ] Fix Bug where layout/assets is required when it is optional
