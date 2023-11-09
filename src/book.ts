@@ -117,5 +117,21 @@ function parseAllChapters(dir: string): Chapter[] {
         return chapterItem;
     });
 
+    // Set next and previous for each chapter
+    //
+    // This is done in book.ts rather than chapter.ts because it is
+    // designed so that a book doesn't know anything else about other
+    // books, and a chapter would not know anything else about other
+    // chapters.
+    for (const i in chapters) {
+        if ((i-1) >= 0) {
+            chapters[i].prev = chapters[i-1];
+        }
+
+        if ((i+1) < chapters.length) {
+            chapters[i].next = chapters[i+1];
+        }
+    }
+
     return chapters;
 }
