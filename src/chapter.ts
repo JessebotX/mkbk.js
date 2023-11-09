@@ -8,7 +8,7 @@ export interface ChapterData {
 
 export interface Chapter extends ChapterData {
     id: string;
-	parent?: Book;
+    parent?: Book;
 }
 
 export interface ChapterOptions {
