@@ -151,3 +151,25 @@ test("Test book default values", () => {
         ]
     }).books[0].chaptersRelDir).toBe('chapters');
 });
+
+const bookObject = collection.parse({
+    title: "John Doe's Collection",
+    workingDir: 'testdata/john-doe-collection',
+    books: [
+        {
+            id: 'warp',
+            workingDir: 'testdata/john-doe-collection/books/1',
+            title: 'Warp',
+            coverRelPath: 'cover.webp'
+        }
+    ]
+}).books[0];
+
+const bookChapters = bookObject.chapters;
+
+test("Test chapter pagination values", () => {
+    expect(bookChapters[0].prev).toBeUndefined();
+    expect(bookChapters[0].next).toBe(bookChapters[1]);
+    expect(bookChapters[bookChapters.length-1].next).toBeUndefined();
+    expect(bookChapters[bookChapters.length-1].prev).toBe(bookChapters[bookChapters.length-2]);
+});

@@ -109,7 +109,7 @@ export function parse(options: BookOptions): Book {
 
 function parseAllChapters(dir: string): Chapter[] {
     const chapterFiles = fs.readdirSync(dir);
-    let chapters = chapterFiles.filter(file => path.extname(file) === '.md').map(file => {
+    let chapters: Chapter[] = chapterFiles.filter(file => path.extname(file) === '.md').map(file => {
         const source = fs.readFileSync(path.join(dir, file)).toString();
         const id = file.replace(/.md$/i, '');
         const chapterItem = chapter.parse({ id, source });
@@ -123,7 +123,7 @@ function parseAllChapters(dir: string): Chapter[] {
     // designed so that a book doesn't know anything else about other
     // books, and a chapter would not know anything else about other
     // chapters.
-    for (const i in chapters) {
+    for (let i: number = 0; i < chapters.length; i++) {
         if ((i-1) >= 0) {
             chapters[i].prev = chapters[i-1];
         }
