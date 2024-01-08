@@ -1,3 +1,21 @@
 #!/usr/bin/env node
 
-console.log('Hello, world');
+import { Command } from 'commander';
+
+const VERSION = '0.1.3';
+const program = new Command();
+
+program
+    .name('mkbk')
+    .description('A static site generator for a collection of markdown-based books.')
+    .version(VERSION);
+
+program.command('build')
+    .description('Compile a collection into its output folder')
+    .argument('<string>', 'path to the root of the collection')
+    .action((str) => {
+        console.log(`Compiling ${str}`);
+        console.log('WIP');
+    });
+
+program.parse();
