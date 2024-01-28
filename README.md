@@ -68,7 +68,7 @@ Ensure you have `node.js` and `npm` installed.
 
    // Generate HTML Site from a collection object
    try {
-     renderer.generateHTMLSite(project);
+     renderer.genCollectionStaticSite(project);
    } catch (err) {
      console.log(err);
    }
