@@ -25,7 +25,11 @@ export function genCollectionStaticSite(collection: Collection) {
     const indexTemplate = getTemplate(path.join(layoutDir, 'index.html'), defaultLayouts.INDEX);
     const bookTemplate = getTemplate(path.join(layoutDir, 'book.html'), defaultLayouts.BOOK_INDEX);
     const chapterTemplate = getTemplate(path.join(layoutDir, 'chapter.html'), defaultLayouts.CHAPTER);
-    copy(path.join(layoutDir, 'assets'), rootOutputDir);
+
+    // add layout/assets
+    if (fs.existsSync(path.join(layoutDir, 'assets'))) {
+        copy(path.join(layoutDir, 'assets'), rootOutputDir);
+    }
 
     const nunjucksEnv = new nunjucks.Environment();
     dateFilter.setDefaultFormat('LLLZ');
@@ -64,9 +68,21 @@ function writeBook(book: Book, outputDir: string, bookTemplate: string, chapterT
 
     const { title, author, description, coverRelPath, languageCode } = book;
     if (coverRelPath) {
-        copy(
-            path.join(book.workingDir, coverRelPath),
-            path.join(outputDir, coverRelPath));
+        try {
+            copy(
+                path.join(book.workingDir, coverRelPath),
+                path.join(outputDir, coverRelPath));
+        } catch (err) {
+            if (err.code === 'ENOENT') {
+                console.error(`Could not find provided cover ${path.join(book.workingDir, coverRelPath)}`);
+            } else {
+                throw err;
+            }
+        }
+    }
+
+    if (!book.chapters) {
+        console.error(`No chapters provided for book ${book.id}`);
     }
 
     // write each chapter and prepare building an epub

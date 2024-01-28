@@ -109,6 +109,11 @@ export function parse(options: BookOptions): Book {
 
 function parseAllChapters(dir: string): Chapter[] {
     const chapterFiles = fs.readdirSync(dir);
+
+    if (!chapterFiles) {
+        return [];
+    }
+
     let chapters: Chapter[] = chapterFiles.filter(file => path.extname(file) === '.md').map(file => {
         const source = fs.readFileSync(path.join(dir, file)).toString();
         const id = file.replace(/.md$/i, '');
